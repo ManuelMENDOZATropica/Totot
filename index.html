@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Totot | Laboratorio creativo y tecnológico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="cursor-orb"></div>
+    <header class="hero" id="inicio">
+        <video class="hero__video" autoplay muted loop playsinline>
+            <source src="https://cdn.coverr.co/videos/coverr-molecular-network-4010/1080p.mp4" type="video/mp4">
+        </video>
+        <div class="hero__overlay"></div>
+        <nav class="nav" aria-label="Principal">
+            <a class="nav__logo" href="#inicio" aria-label="Totot inicio">
+                <img src="assets/logo-totot-color.svg" alt="Totot" />
+            </a>
+            <button class="nav__toggle" aria-expanded="false" aria-label="Abrir menú">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav__links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#quienes-somos">Quiénes somos</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+        <div class="hero__content">
+            <img class="hero__logo" src="assets/logo-totot-color.svg" alt="Logotipo Totot" />
+            <p class="hero__lead">Unimos arte, tecnología e inteligencia artificial para crear experiencias interactivas que inspiran.</p>
+            <a class="btn btn--primary" href="#servicios">Explora nuestro trabajo</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="about section" id="quienes-somos">
+            <div class="section__header">
+                <h2>Quiénes somos</h2>
+                <p>Más que un estudio, somos un laboratorio donde la imaginación y la tecnología se encuentran.</p>
+            </div>
+            <div class="about__grid">
+                <article class="about__text">
+                    <p>Totot es un laboratorio creativo y tecnológico donde artistas, diseñadoras, desarrolladores y estrategas de innovación colaboran con inteligencia artificial para transformar ideas en experiencias memorables. Nos apasiona explorar nuevas narrativas, desafiar lo posible y conectar con las personas mediante historias envolventes.</p>
+                    <p>Experimentamos con medios digitales, realidades extendidas y sistemas interactivos para crear proyectos que evolucionan con el tiempo y responden a su audiencia. Cada colaboración es una oportunidad para mezclar arte, tecnología y emoción en un mismo pulso.</p>
+                </article>
+                <div class="about__media">
+                    <div class="about__media-card" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1523966211575-eb4a01e7dd51?auto=format&fit=crop&w=900&q=80" alt="Equipo creativo colaborando" />
+                    </div>
+                    <div class="about__media-card about__media-card--secondary" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80" alt="Tecnología futurista" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services section" id="servicios">
+            <div class="section__header">
+                <h2>Servicios</h2>
+                <p>Diseñamos experiencias donde la creatividad y la tecnología se potencian mutuamente.</p>
+            </div>
+            <div class="services__grid">
+                <article class="service-card" data-color="azul">
+                    <span class="service-card__icon" aria-hidden="true">✶</span>
+                    <h3>Experiencias Interactivas e Inmersivas</h3>
+                    <p>Instalaciones sensoriales, espacios inmersivos y narrativas digitales que despiertan emociones y curiosidad.</p>
+                </article>
+                <article class="service-card" data-color="naranja">
+                    <span class="service-card__icon" aria-hidden="true">◎</span>
+                    <h3>Realidad Extendida y Tecnologías Emergentes</h3>
+                    <p>Exploramos realidades aumentadas, virtuales y mixtas para llevar tus ideas más allá de la pantalla.</p>
+                </article>
+                <article class="service-card" data-color="verde">
+                    <span class="service-card__icon" aria-hidden="true">△</span>
+                    <h3>Desarrollo Creativo y Tecnológico</h3>
+                    <p>Prototipamos, iteramos y construimos soluciones digitales que fusionan arte, código e inteligencia artificial.</p>
+                </article>
+                <article class="service-card" data-color="rojo">
+                    <span class="service-card__icon" aria-hidden="true">∞</span>
+                    <h3>Consultoría e Innovación</h3>
+                    <p>Guiamos a equipos y organizaciones para activar procesos de innovación y cultura creativa.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="contact section" id="contacto">
+            <div class="section__header">
+                <h2>Contacto</h2>
+                <p>¿Tienes una idea? Conectemos para hacerla realidad.</p>
+            </div>
+            <div class="contact__grid">
+                <form class="contact__form">
+                    <div class="form__field">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="form__field">
+                        <label for="correo">Correo electrónico</label>
+                        <input type="email" id="correo" name="correo" placeholder="nombre@empresa.com" required>
+                    </div>
+                    <div class="form__field">
+                        <label for="mensaje">Mensaje</label>
+                        <textarea id="mensaje" name="mensaje" rows="4" placeholder="Cuéntanos sobre tu proyecto" required></textarea>
+                    </div>
+                    <button class="btn btn--secondary" type="submit">Enviar mensaje</button>
+                </form>
+                <div class="contact__info">
+                    <h3>Conversemos</h3>
+                    <p>Escríbenos a <a href="mailto:hola@totot.la">hola@totot.la</a> o síguenos en redes para conocer nuestros procesos y experimentos.</p>
+                    <ul class="contact__links">
+                        <li><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></li>
+                        <li><a href="https://behance.net" target="_blank" rel="noopener">Behance</a></li>
+                        <li><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__logo">
+            <img src="assets/logo-totot-blanco.svg" alt="Totot" />
+        </div>
+        <div class="footer__links">
+            <a href="#inicio">Inicio</a>
+            <a href="#quienes-somos">Quiénes somos</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+        <div class="footer__contact">
+            <a href="mailto:hola@totot.la">hola@totot.la</a>
+            <div class="footer__social">
+                <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+                <a href="https://behance.net" target="_blank" rel="noopener" aria-label="Behance">BE</a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
+            </div>
+        </div>
+        <p class="footer__copy">© <span id="year"></span> Totot. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

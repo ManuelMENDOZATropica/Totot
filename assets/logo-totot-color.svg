@@ -1,0 +1,9 @@
+<svg width="140" height="40" viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="140" height="40" rx="12" fill="#0E0E12"/>
+  <g font-family="'Poppins', 'Avenir', sans-serif" font-weight="600" font-size="20" text-anchor="middle" fill="#ffffff">
+    <text x="50" y="27" fill="#5985C4">TO</text>
+    <text x="92" y="27" fill="#DC8217">TOT</text>
+  </g>
+  <circle cx="20" cy="20" r="6" fill="#483A8F"/>
+  <circle cx="120" cy="20" r="6" fill="#258535"/>
+</svg>
