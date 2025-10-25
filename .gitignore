@@ -1,0 +1,27 @@
+# 👇 Archivos de entorno (credenciales y claves)
+.env
+.env.local
+.env.*.local
+
+# 👇 Dependencias de Node
+node_modules/
+
+# 👇 Logs y archivos temporales
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 👇 Compilados / builds
+dist/
+build/
+.next/
+out/
+
+# 👇 Sistemas operativos
+.DS_Store
+Thumbs.db
+
+# 👇 IDEs / editores
+.vscode/
+.idea/
