@@ -527,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < totalFrames; i++) {
       const img = new Image();
       const num = String(i).padStart(2, '0');
-      img.src = `motioinicial/Motion graphic${num}.jpg`;
+      img.src = `motioInicial/Motion graphic${num}.jpg`;
       img.onload = () => {
         loadedCount++;
         // Set canvas resolution based on first frame
@@ -539,6 +539,10 @@ document.addEventListener('DOMContentLoaded', () => {
           animationStarted = true;
           startAnimation();
         }
+      };
+      img.onerror = () => {
+        // If any frame fails to load, skip the splash so the page is never stuck
+        animationFinished = true;
       };
       frames.push(img);
     }
