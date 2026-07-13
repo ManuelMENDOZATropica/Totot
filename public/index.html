@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<div id="splash-screen" style="position:fixed;inset:0;background-color:#FEFAFC;display:flex;align-items:center;justify-content:center;z-index:20000;transition:opacity 0.6s ease,visibility 0.6s;">
+  <canvas id="splash-canvas" style="width:100vw;height:100vh;object-fit:cover;filter:url(#remove-black);border:none;outline:none;"></canvas>
+</div>
+<svg width="0" height="0" style="position:absolute;pointer-events:none;width:0;height:0;">
+  <defs>
+    <filter id="remove-black">
+      <feColorMatrix type="matrix" values="
+        1 0 0 0 0
+        0 1 0 0 0
+        0 0 1 0 0
+        5 5 5 0 -0.6
+      "/>
+    </filter>
+  </defs>
+</svg>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#FEFAFC;}
+  ::selection{background:#7267C1;color:#FEFAFC;}
+  #totot-car::-webkit-scrollbar{display:none;}
+  #totot-car{scrollbar-width:none;}
+  [data-home-narrow]{display:none;}
+  @media (max-width:760px){
+    [data-home-wide]{display:none !important;}
+    [data-home-narrow]{display:flex !important;}
+    [data-srv]{margin-left:0 !important;max-width:100% !important;}
+    [data-pad]{padding-left:20px !important;padding-right:20px !important;}
+    [data-row2]{flex-direction:column !important;gap:32px !important;}
+    [data-qcols]{flex-direction:column !important;}
+    [data-qimg]{width:100% !important;height:300px !important;}
+    [data-title]{font-size:40px !important;letter-spacing:0.12em !important;}
+    [data-hl]{width:90% !important;}
+    [data-foot]{flex-direction:column !important;gap:24px !important;}
+    [data-cwrap]{flex-wrap:wrap !important;}
+  }
+
+  /* Custom Cursor */
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #A9A1EA;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    will-change: transform, width, height, background-color;
+    display: none;
+    transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+  }
+  .custom-cursor.hovering {
+    width: 48px;
+    height: 48px;
+    background-color: #69AFE8;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    html, body, a, button, [onClick], [data-hover], [style*="cursor:pointer"], [style-hover] {
+      cursor: none !important;
+    }
+    .custom-cursor {
+      display: block;
+    }
+  }
+
+  /* Splash Loading Animation */
+  @keyframes pulse {
+    0%, 100% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+  }
+</style>
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#FEFAFC"/><rect x="30" y="30" width="40" height="14" rx="7" fill="#69AFE8"/><rect x="30" y="48" width="40" height="14" rx="7" fill="#FA6662"/><rect x="30" y="66" width="40" height="14" rx="7" fill="#A9A1EA"/></svg>
+</template>
+</helmet>
+<div id="main-content" style="font-family:'Host Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#090502;background:#FEFAFC;min-height:100vh;width:100%;overflow-x:hidden;opacity:0;transition:opacity 0.8s ease;">
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <!-- ===== HOME WIDE (collage) ===== -->
+    <div data-home-wide style="min-height:100vh;width:100%;display:flex;align-items:center;justify-content:center;padding:24px;">
+      <div style="width:100%;max-width:1280px;aspect-ratio:1280/832;position:relative;container-type:size;">
+        <!-- header -->
+        <div style="position:absolute;left:3.1%;top:4.2%;width:93.8%;display:flex;align-items:center;justify-content:space-between;z-index:5;">
+          <div style="display:flex;gap:1.8cqw;align-items:center;">
+            <span style="font-size:0.95cqw;font-weight:300;letter-spacing:0.24em;color:#090502;opacity:0.85;">[Social]</span>
+            <span style="font-size:1.25cqw;font-weight:300;letter-spacing:0.22em;color:#090502;cursor:pointer;" style-hover="color:#A9A1EA;">Instagram</span>
+            <span style="font-size:1.25cqw;font-weight:300;letter-spacing:0.22em;color:#090502;cursor:pointer;" style-hover="color:#A9A1EA;">Facebook</span>
+            <span style="font-size:1.25cqw;font-weight:300;letter-spacing:0.22em;color:#090502;cursor:pointer;" style-hover="color:#A9A1EA;">Tiktok</span>
+          </div>
+          <div onClick="{{ goHome }}" style="width:80px;height:24px;position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="opacity:0.7;">
+            <dc-import name="TototLogo" hint-size="80px,24px"></dc-import>
+          </div>
+          <div style="display:flex;gap:1.8cqw;align-items:center;">
+            <span style="font-size:0.95cqw;font-weight:300;letter-spacing:0.24em;color:#090502;opacity:0.85;">[Contacto]</span>
+            <span style="font-size:1.25cqw;font-weight:300;letter-spacing:0.22em;color:#090502;">+525571917878</span>
+            <span style="font-size:1.25cqw;font-weight:300;letter-spacing:0.22em;color:#090502;">manu@totot.mx</span>
+          </div>
+        </div>
+
+        <!-- decorative accent bars (behind) -->
+        <div style="position:absolute;left:42.8%;top:9%;width:3.9%;height:23.1%;border-radius:36px;background:rgba(247,155,55,0.9);transform:rotate(12deg);"></div>
+        <div style="position:absolute;left:95.5%;top:8.4%;width:3.6%;height:23.1%;border-radius:36px;background:rgba(247,155,55,0.9);transform:rotate(12deg);"></div>
+        <div style="position:absolute;left:50.5%;top:31.5%;width:3.9%;height:23.1%;border-radius:36px;background:rgba(252,192,238,0.9);transform:rotate(12deg);"></div>
+        <div style="position:absolute;left:54.5%;top:31.5%;width:3.6%;height:23.1%;border-radius:36px;background:rgba(53,181,71,0.9);transform:rotate(-12deg);"></div>
+        <div style="position:absolute;left:94.7%;top:54.7%;width:3.6%;height:23.1%;border-radius:36px;background:rgba(114,103,193,0.9);transform:rotate(12deg);"></div>
+        <div style="position:absolute;left:0.8%;top:76.9%;width:3.6%;height:23.1%;border-radius:36px;background:rgba(252,192,238,0.9);transform:rotate(-12deg);"></div>
+        <div style="position:absolute;left:4.8%;top:76.9%;width:3.6%;height:23.1%;border-radius:36px;background:rgba(250,102,98,0.9);transform:rotate(12deg);"></div>
+        <div style="position:absolute;left:47.5%;top:76.9%;width:3.6%;height:23.1%;border-radius:36px;background:rgba(248,202,92,0.9);transform:rotate(-12deg);"></div>
+        <div style="position:absolute;left:52%;top:76.9%;width:3.6%;height:23.1%;border-radius:36px;background:rgba(53,181,71,0.9);transform:rotate(12deg);"></div>
+        <div style="position:absolute;left:56.5%;top:76.9%;width:3.6%;height:23.1%;border-radius:36px;background:rgba(114,103,193,0.9);transform:rotate(-12deg);"></div>
+
+        <!-- image capsules -->
+        <div style="position:absolute;left:43.5%;top:9%;width:50%;height:23.1%;border-radius:2.8cqw;background:rgba(169,161,234,0.8);"></div>
+        <div style="position:absolute;left:4.2%;top:31.5%;width:49.5%;height:23.1%;border-radius:2.8cqw;background:rgba(250,102,98,0.8);"></div>
+        <div style="position:absolute;left:53.5%;top:54.1%;width:41.5%;height:23.1%;border-radius:2.8cqw;background:rgba(136,232,238,0.8);"></div>
+        <div style="position:absolute;left:9.5%;top:76.9%;width:39%;height:23.1%;border-radius:2.8cqw;background:rgba(247,155,55,0.8);"></div>
+
+        <!-- menu capsules -->
+        <div onClick="{{ goProy }}" style="position:absolute;left:0;top:9%;width:44.5%;height:23.1%;border-radius:2.8cqw;background:rgba(105,175,232,0.85);display:flex;align-items:flex-end;justify-content:center;padding-bottom:2.1cqw;overflow:hidden;cursor:pointer;transition:filter .2s,transform .2s;" style-hover="filter:brightness(1.08);transform:translateY(-4px);">
+          <span style="font-size:4.45cqw;font-weight:800;letter-spacing:0.24em;line-height:1;white-space:nowrap;color:#FEFAFC;">PROYECTOS</span>
+        </div>
+        <div onClick="{{ goServ }}" style="position:absolute;left:51.5%;top:31.5%;width:44.3%;height:23.1%;border-radius:2.8cqw;background:rgba(105,175,232,0.85);display:flex;align-items:flex-end;justify-content:center;padding-bottom:2.1cqw;overflow:hidden;cursor:pointer;transition:filter .2s,transform .2s;" style-hover="filter:brightness(1.08);transform:translateY(-4px);">
+          <span style="font-size:4.45cqw;font-weight:800;letter-spacing:0.24em;line-height:1;white-space:nowrap;color:#FEFAFC;">SERVICIOS</span>
+        </div>
+        <div onClick="{{ goQui }}" style="position:absolute;left:0;top:54.1%;width:54.5%;height:23.1%;border-radius:2.8cqw;background:rgba(105,175,232,0.85);display:flex;align-items:flex-end;justify-content:center;padding-bottom:2.1cqw;overflow:hidden;cursor:pointer;transition:filter .2s,transform .2s;" style-hover="filter:brightness(1.08);transform:translateY(-4px);">
+          <span style="font-size:4.45cqw;font-weight:800;letter-spacing:0.24em;line-height:1;white-space:nowrap;color:#FEFAFC;">QUIÉNES SOMOS</span>
+        </div>
+        <div style="position:absolute;left:58.5%;top:76.9%;width:41.5%;height:23.1%;border-radius:2.8cqw;background:rgba(105,175,232,0.85);display:flex;align-items:flex-end;justify-content:center;padding-bottom:2.1cqw;overflow:hidden;cursor:default;">
+          <span style="font-size:4.45cqw;font-weight:800;letter-spacing:0.24em;line-height:1;white-space:nowrap;color:#FEFAFC;">ARTÍCULOS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== HOME NARROW (stack) ===== -->
+    <div data-home-narrow style="min-height:100vh;width:100%;flex-direction:column;padding:20px 16px 32px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+        <span style="font-size:11px;font-weight:300;letter-spacing:0.24em;opacity:0.85;">[Social]</span>
+        <div onClick="{{ goHome }}" style="transform:scale(1.3);cursor:pointer;"><dc-import name="TototLogo" hint-size="80px,24px"></dc-import></div>
+        <span style="font-size:11px;font-weight:300;letter-spacing:0.24em;opacity:0.85;">[Contacto]</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div onClick="{{ goProy }}" style="height:110px;border-radius:30px;background:#69AFE8;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-active="filter:brightness(1.1);">
+          <span style="font-size:30px;font-weight:800;letter-spacing:0.18em;color:#6B5FC0;">PROYECTOS</span>
+        </div>
+        <div style="height:96px;border-radius:30px;background:#A9A1EA;"></div>
+        <div onClick="{{ goServ }}" style="height:110px;border-radius:30px;background:#69AFE8;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-active="filter:brightness(1.1);">
+          <span style="font-size:30px;font-weight:800;letter-spacing:0.18em;color:#6B5FC0;">SERVICIOS</span>
+        </div>
+        <div style="height:96px;border-radius:30px;background:#FA6662;"></div>
+        <div onClick="{{ goQui }}" style="height:124px;border-radius:30px;background:#69AFE8;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;" style-active="filter:brightness(1.1);">
+          <span style="font-size:28px;font-weight:800;letter-spacing:0.16em;color:#6B5FC0;line-height:1.1;">QUIÉNES<br/>SOMOS</span>
+        </div>
+        <div style="height:96px;border-radius:30px;background:#88E8EE;"></div>
+        <div style="height:110px;border-radius:30px;background:#69AFE8;display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:30px;font-weight:800;letter-spacing:0.16em;color:#6B5FC0;">ARTÍCULOS</span>
+        </div>
+        <div style="height:96px;border-radius:30px;background:#F79B37;"></div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isProy }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:80px;padding:40px 0;">
+    <div onClick="{{ goHome }}" style="cursor:pointer;" style-hover="opacity:0.7;"><dc-import name="TototLogo" hint-size="80px,24px"></dc-import></div>
+
+    <!-- Top -->
+    <div data-pad style="width:100%;max-width:1280px;padding:0 40px;display:flex;flex-direction:column;gap:40px;align-items:center;">
+      <div data-cwrap style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+        <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:8px;cursor:pointer;flex-shrink:0;" style-hover="opacity:0.7;">
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.24em;color:#090502;">Home</span>
+        </div>
+        <div style="position:relative;display:flex;align-items:flex-end;justify-content:center;flex:1;">
+          <div data-hl style="position:absolute;bottom:0;width:78%;height:34px;border-radius:16px;background:#F79B37;opacity:0.2;"></div>
+          <span data-title style="position:relative;font-size:57px;font-weight:800;letter-spacing:0.24em;line-height:60px;color:#090502;white-space:nowrap;">PROYECTOS</span>
+        </div>
+        <div style="width:103px;flex-shrink:0;"></div>
+      </div>
+      <div style="max-width:880px;text-align:center;display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:24px;font-weight:700;letter-spacing:0.16em;color:#090502;">Ideas que ya viven en el mundo</span>
+        <span style="font-size:15px;font-weight:300;letter-spacing:0.16em;line-height:1.7;color:#090502;">Una muestra de las experiencias que hemos creado junto a nuestros clientes.</span>
+      </div>
+    </div>
+
+    <!-- Project cards -->
+    <div data-pad style="width:100%;max-width:1280px;padding:0 40px;display:flex;flex-direction:column;gap:32px;">
+
+      <a href="https://totot-amoa.vercel.app/" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
+        <div data-row2 style="border-radius:24px;background:rgba(169,161,234,0.85);padding:40px;display:flex;align-items:center;justify-content:space-between;gap:24px;transition:filter .2s,transform .2s;" style-hover="filter:brightness(1.05);transform:translateY(-4px);">
+          <div style="display:flex;flex-direction:column;gap:10px;max-width:760px;">
+            <span style="font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(9,5,2,0.6);">[Experiencia interactiva]</span>
+            <span style="font-size:28px;font-weight:800;letter-spacing:0.18em;color:#090502;">AMOA · EL MAGO DE LOS ACERTIJOS</span>
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.16em;line-height:1.6;color:#090502;">Un micrositio-juego en pixel art donde un mago reta a los visitantes con acertijos, ambientación sonora y magia retro que nadie quiere abandonar.</span>
+          </div>
+          <div style="border:1px solid rgba(9,5,2,0.35);border-radius:999px;padding:14px 26px;flex-shrink:0;">
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.18em;color:#090502;">Visitar ↗</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://milojos.totot.mx/" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
+        <div data-row2 style="border-radius:24px;background:rgba(247,155,55,0.85);padding:40px;display:flex;align-items:center;justify-content:space-between;gap:24px;transition:filter .2s,transform .2s;" style-hover="filter:brightness(1.05);transform:translateY(-4px);">
+          <div style="display:flex;flex-direction:column;gap:10px;max-width:760px;">
+            <span style="font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(9,5,2,0.6);">[IA · Impacto social]</span>
+            <span style="font-size:28px;font-weight:800;letter-spacing:0.18em;color:#090502;">MIL OJOS</span>
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.16em;line-height:1.6;color:#090502;">Sistema de búsqueda por similitud facial sobre la base de datos de personas desaparecidas del Estado de México (COBUPEM): tecnología al servicio de quienes buscan.</span>
+          </div>
+          <div style="border:1px solid rgba(9,5,2,0.35);border-radius:999px;padding:14px 26px;flex-shrink:0;">
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.18em;color:#090502;">Visitar ↗</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://si-desaparezco-usen-esta-foto.vercel.app/" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
+        <div data-row2 style="border-radius:24px;background:rgba(250,102,98,0.85);padding:40px;display:flex;align-items:center;justify-content:space-between;gap:24px;transition:filter .2s,transform .2s;" style-hover="filter:brightness(1.05);transform:translateY(-4px);">
+          <div style="display:flex;flex-direction:column;gap:10px;max-width:760px;">
+            <span style="font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(9,5,2,0.6);">[Obra · Arte y tecnología]</span>
+            <span style="font-size:28px;font-weight:800;letter-spacing:0.18em;color:#090502;">SI DESAPAREZCO, USEN ESTA FOTO</span>
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.16em;line-height:1.6;color:#090502;">Repositorio preventivo de identidad: un ritual de auto-archivo con cifrado zero-knowledge, donde la ficha de búsqueda se crea antes de la ausencia y la llave pertenece solo a quien tú decidas.</span>
+          </div>
+          <div style="border:1px solid rgba(9,5,2,0.35);border-radius:999px;padding:14px 26px;flex-shrink:0;">
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.18em;color:#090502;">Visitar ↗</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://www.grandzilam.com" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
+        <div data-row2 style="border-radius:24px;background:rgba(136,232,238,0.85);padding:40px;display:flex;align-items:center;justify-content:space-between;gap:24px;transition:filter .2s,transform .2s;" style-hover="filter:brightness(1.05);transform:translateY(-4px);">
+          <div style="display:flex;flex-direction:column;gap:10px;max-width:760px;">
+            <span style="font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(9,5,2,0.6);">[Cliente · Real Estate · Yucatán]</span>
+            <span style="font-size:28px;font-weight:800;letter-spacing:0.18em;color:#090502;">GRAND ZILAM</span>
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.16em;line-height:1.6;color:#090502;">Presencia digital para un desarrollo inmobiliario en Yucatán: identidad, sitio y experiencia pensados para conectar con inversionistas y compradores.</span>
+          </div>
+          <div style="border:1px solid rgba(9,5,2,0.35);border-radius:999px;padding:14px 26px;flex-shrink:0;">
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.18em;color:#090502;">Visitar ↗</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://tib-ai-buddy-miyq.vercel.app/" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
+        <div data-row2 style="border-radius:24px;background:rgba(252,192,238,0.85);padding:40px;display:flex;align-items:center;justify-content:space-between;gap:24px;transition:filter .2s,transform .2s;" style-hover="filter:brightness(1.05);transform:translateY(-4px);">
+          <div style="display:flex;flex-direction:column;gap:10px;max-width:760px;">
+            <span style="font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(9,5,2,0.6);">[The Inner Balance · Emiratos Árabes Unidos]</span>
+            <span style="font-size:28px;font-weight:800;letter-spacing:0.18em;color:#090502;">THE INNER BUDDY</span>
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.16em;line-height:1.6;color:#090502;">Compañero conversacional con IA creado para The Inner Balance: bienestar y acompañamiento digital con un toque profundamente humano.</span>
+          </div>
+          <div style="border:1px solid rgba(9,5,2,0.35);border-radius:999px;padding:14px 26px;flex-shrink:0;">
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.18em;color:#090502;">Visitar ↗</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <div style="width:100%;max-width:1280px;padding:0 40px;">
+      <div data-foot style="border-radius:8px;background:#7267C1;padding:40px;display:flex;flex-direction:column;gap:30px;position:relative;min-height:200px;">
+        <div data-cwrap style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <span style="width:120px;font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(254,250,252,0.7);">[Navegación]</span>
+          <span onClick="{{ goHome }}" style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Home</span>
+          <span onClick="{{ goProy }}" style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Proyectos</span>
+          <span onClick="{{ goServ }}" style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Servicios</span>
+          <span onClick="{{ goQui }}" style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Quiénes somos</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Artículos</span>
+        </div>
+        <div data-cwrap style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <span style="width:120px;font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(254,250,252,0.7);">[Social]</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">Instagram</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">Facebook</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">Tiktok</span>
+        </div>
+        <div data-cwrap style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <span style="width:120px;font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(254,250,252,0.7);">[Contacto]</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">+525571917878</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">manu@totot.mx</span>
+        </div>
+        <div onClick="{{ goHome }}" style="position:absolute;right:40px;bottom:30px;cursor:pointer;" style-hover="opacity:0.7;"><dc-import name="TototLogo" hint-size="80px,24px"></dc-import></div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isServ }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:80px;padding:40px 0;">
+    <div onClick="{{ goHome }}" style="transform:scale(1);cursor:pointer;" style-hover="opacity:0.7;"><dc-import name="TototLogo" hint-size="80px,24px"></dc-import></div>
+
+    <!-- Top -->
+    <div data-pad style="width:100%;max-width:1280px;padding:0 40px;display:flex;flex-direction:column;gap:40px;align-items:center;">
+      <div data-cwrap style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+        <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:8px;cursor:pointer;flex-shrink:0;" style-hover="opacity:0.7;">
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.24em;color:#090502;">Home</span>
+        </div>
+        <div style="position:relative;display:flex;align-items:flex-end;justify-content:center;flex:1;">
+          <div data-hl style="position:absolute;bottom:0;width:78%;height:34px;border-radius:16px;background:#EF2929;opacity:0.15;"></div>
+          <span data-title style="position:relative;font-size:57px;font-weight:800;letter-spacing:0.24em;line-height:60px;color:#090502;white-space:nowrap;">SERVICIOS</span>
+        </div>
+        <div style="width:103px;flex-shrink:0;"></div>
+      </div>
+      <div style="max-width:880px;text-align:center;display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:24px;font-weight:700;letter-spacing:0.16em;color:#090502;">En Totot creamos experiencias</span>
+        <span style="font-size:15px;font-weight:300;letter-spacing:0.16em;line-height:1.7;color:#090502;">que fusionan arte, tecnología e innovación para transformar la forma en que las marcas y organizaciones se comunican con su audiencia.</span>
+      </div>
+    </div>
+
+    <!-- Carousel -->
+    <div data-pad style="width:100%;max-width:1280px;padding:0 40px;">
+      <div style="position:relative;">
+        <div id="totot-car" style="display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:8px;">
+          <div style="flex:0 0 calc((100% - 40px)/3);min-width:78%;max-width:none;height:300px;scroll-snap-align:center;border-radius:8px;background:#1a1512 center/cover no-repeat;background-image:url('img/carrusel-1.jpg');"></div>
+          <div style="flex:0 0 calc((100% - 40px)/3);min-width:78%;height:300px;scroll-snap-align:center;border-radius:8px;background:#1a1512 center/cover no-repeat;background-image:url('img/carrusel-2.jpg');"></div>
+          <div style="flex:0 0 calc((100% - 40px)/3);min-width:78%;height:300px;scroll-snap-align:center;border-radius:8px;background:#1a1512 center/cover no-repeat;background-image:url('img/carrusel-3.jpg');"></div>
+        </div>
+        <div onClick="{{ carPrev }}" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(9,5,2,0.55);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(254,250,252,0.25);" style-hover="background:rgba(114,103,193,0.85);">
+          <span style="font-size:20px;color:#FEFAFC;line-height:1;">‹</span>
+        </div>
+        <div onClick="{{ carNext }}" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(9,5,2,0.55);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(254,250,252,0.25);" style-hover="background:rgba(114,103,193,0.85);">
+          <span style="font-size:20px;color:#FEFAFC;line-height:1;">›</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services staircase -->
+    <div data-pad style="width:100%;max-width:1280px;padding:0 40px;display:flex;flex-direction:column;gap:40px;">
+      <div data-srv style="margin-left:0;max-width:384px;display:flex;flex-direction:column;gap:10px;">
+        <span style="font-size:22px;font-weight:600;letter-spacing:0.22em;line-height:1.15;color:#090502;">Experiencias Interactivas e Inmersivas</span>
+        <span style="font-size:16px;font-weight:300;letter-spacing:0.2em;line-height:1.5;color:#090502;">Diseñamos instalaciones interactivas, narrativas inmersivas y entornos digitales que sorprenden y generan conexión real con el público en eventos, museos, espacios culturales y corporativos.</span>
+      </div>
+      <div data-srv style="margin-left:200px;max-width:384px;display:flex;flex-direction:column;gap:10px;">
+        <span style="font-size:22px;font-weight:600;letter-spacing:0.22em;line-height:1.15;color:#090502;">Realidad Extendida y Tecnologías Emergentes</span>
+        <span style="font-size:16px;font-weight:300;letter-spacing:0.2em;line-height:1.5;color:#090502;">Desarrollamos proyectos en realidad aumentada [AR], realidad virtual [VR] y realidad mixta [XR], integrando sensores y sistemas de tracking para crear experiencias únicas y memorables.</span>
+      </div>
+      <div data-srv style="margin-left:400px;max-width:384px;display:flex;flex-direction:column;gap:10px;">
+        <span style="font-size:22px;font-weight:600;letter-spacing:0.22em;line-height:1.15;color:#090502;">Desarrollo Creativo y Tecnológico</span>
+        <span style="font-size:16px;font-weight:300;letter-spacing:0.2em;line-height:1.5;color:#090502;">Creamos soluciones digitales a medida que combinan software y hardware. Desde prototipos funcionales hasta proyectos integrales, damos vida a ideas innovadoras que impulsan el valor de las marcas.</span>
+      </div>
+      <div data-srv style="margin-left:560px;max-width:384px;display:flex;flex-direction:column;gap:10px;">
+        <span style="font-size:22px;font-weight:600;letter-spacing:0.22em;line-height:1.15;color:#090502;">Consultoría en Innovación</span>
+        <span style="font-size:16px;font-weight:300;letter-spacing:0.2em;line-height:1.5;color:#090502;">Acompañamos a empresas y organizaciones en la conceptualización de proyectos creativos y tecnológicos. Nuestro enfoque de investigación aplicada nos permite proponer soluciones originales y efectivas para cada necesidad.</span>
+      </div>
+      <div data-srv style="margin-left:700px;max-width:384px;display:flex;flex-direction:column;gap:10px;">
+        <span style="font-size:22px;font-weight:600;letter-spacing:0.22em;line-height:1.15;color:#090502;">Inteligencia Artificial Creativa</span>
+        <span style="font-size:16px;font-weight:300;letter-spacing:0.2em;line-height:1.5;color:#090502;">Potenciamos la narrativa de tu marca utilizando IA para crear experiencias que aprenden, evolucionan y responden a la audiencia en tiempo real. Desde contenidos visuales generativos que nunca se repiten hasta sistemas inteligentes que humanizan la interacción digital, transformamos la complejidad de la IA en conexiones emocionales profundas.</span>
+      </div>
+    </div>
+
+    <!-- Contact CTA -->
+    <div data-pad style="width:100%;max-width:1280px;padding:0 40px;">
+      <div style="border-radius:24px;background:#1c1a18;padding:48px 32px;display:flex;flex-direction:column;align-items:center;gap:14px;">
+        <span style="font-size:24px;font-weight:700;letter-spacing:0.14em;text-align:center;color:#FEFAFC;max-width:560px;line-height:1.3;">Siempre estamos en búsqueda del próximo proyecto</span>
+        <span style="font-size:12px;font-weight:300;letter-spacing:0.24em;color:#A9A1EA;margin-top:6px;">[Selecciona 1]</span>
+        <div data-cwrap style="display:flex;gap:14px;margin-top:18px;justify-content:center;">
+          <div onClick="{{ selProy }}" style="background:{{ proyBg }};border:1px solid rgba(254,250,252,0.25);border-radius:999px;padding:14px 26px;cursor:pointer;transition:background .2s;" style-hover="border-color:#A9A1EA;">
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.18em;color:#FEFAFC;">Tengo un proyecto</span>
+          </div>
+          <div onClick="{{ selIdea }}" style="background:{{ ideaBg }};border:1px solid rgba(254,250,252,0.25);border-radius:999px;padding:14px 26px;cursor:pointer;transition:background .2s;" style-hover="border-color:#A9A1EA;">
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.18em;color:#FEFAFC;">Tengo una idea</span>
+          </div>
+          <div onClick="{{ selCons }}" style="background:{{ consBg }};border:1px solid rgba(254,250,252,0.25);border-radius:999px;padding:14px 26px;cursor:pointer;transition:background .2s;" style-hover="border-color:#A9A1EA;">
+            <span style="font-size:15px;font-weight:300;letter-spacing:0.18em;color:#FEFAFC;">Tengo una consulta</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:100%;max-width:1280px;padding:0 40px;">
+      <div data-foot style="border-radius:8px;background:#7267C1;padding:40px;display:flex;flex-direction:column;gap:30px;position:relative;min-height:200px;">
+        <div data-cwrap style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <span style="width:120px;font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(254,250,252,0.7);">[Navegación]</span>
+          <span onClick="{{ goHome }}" style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Home</span>
+          <span onClick="{{ goProy }}" style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Proyectos</span>
+          <span onClick="{{ goServ }}" style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Servicios</span>
+          <span onClick="{{ goQui }}" style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Quiénes somos</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Artículos</span>
+        </div>
+        <div data-cwrap style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <span style="width:120px;font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(254,250,252,0.7);">[Social]</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">Instagram</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">Facebook</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">Tiktok</span>
+        </div>
+        <div data-cwrap style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <span style="width:120px;font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(254,250,252,0.7);">[Contacto]</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">+525571917878</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">manu@totot.mx</span>
+        </div>
+        <div onClick="{{ goHome }}" style="position:absolute;right:40px;bottom:30px;cursor:pointer;" style-hover="opacity:0.7;"><dc-import name="TototLogo" hint-size="80px,24px"></dc-import></div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isQui }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:80px;padding:40px 0;">
+    <div onClick="{{ goHome }}" style="cursor:pointer;" style-hover="opacity:0.7;"><dc-import name="TototLogo" hint-size="80px,24px"></dc-import></div>
+
+    <div data-pad style="width:100%;max-width:1280px;padding:0 40px;display:flex;flex-direction:column;gap:40px;align-items:center;">
+      <div data-cwrap style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+        <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:8px;cursor:pointer;flex-shrink:0;" style-hover="opacity:0.7;">
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.24em;color:#090502;">Home</span>
+        </div>
+        <div style="position:relative;display:flex;align-items:flex-end;justify-content:center;flex:1;">
+          <div data-hl style="position:absolute;bottom:0;width:72%;height:40px;border-radius:16px;background:#88E8EE;opacity:0.15;"></div>
+          <span data-title style="position:relative;font-size:57px;font-weight:800;letter-spacing:0.24em;line-height:60px;color:#090502;white-space:nowrap;">QUIÉNES SOMOS</span>
+        </div>
+        <div style="width:103px;flex-shrink:0;"></div>
+      </div>
+      <div style="max-width:880px;text-align:center;display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:24px;font-weight:700;letter-spacing:0.16em;color:#090502;">Somos un laboratorio de tecnología creativa</span>
+        <span style="font-size:15px;font-weight:300;letter-spacing:0.16em;color:#090502;">donde la innovación es una práctica diaria.</span>
+      </div>
+    </div>
+
+    <div data-pad style="width:100%;max-width:1280px;padding:0 40px;">
+      <div data-qcols style="display:flex;gap:48px;align-items:flex-start;">
+        <div data-qimg style="flex:0 0 46%;height:680px;border-radius:6px;background:#120a18 center/cover no-repeat;background-image:url('img/quienes-somos.jpg');"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:24px;">
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#A9A1EA;">[Qué hacemos]</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.18em;line-height:1.6;color:#090502;">Combinamos inteligencia artificial, desarrollo tecnológico y sensibilidad humana. Creemos firmemente que la tecnología por sí sola no basta; lo que la hace poderosa es el toque humano que la dirige.</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.18em;line-height:1.6;color:#090502;">Nuestro trabajo nace de la curiosidad y la experimentación. Diseñamos soluciones que integran software, hardware y narrativas digitales para generar conexiones reales entre las personas y las marcas. Más que un estudio, somos un espacio donde la imaginación y el arte se encuentran para construir el futuro.</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#A9A1EA;margin-top:8px;">[Qué buscamos]</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.18em;line-height:1.6;color:#090502;">En Totot tenemos la misión de fusionar arte, tecnología e inteligencia artificial para diseñar experiencias interactivas e inmersivas que inspiren, sorprendan y conecten a las marcas con sus audiencias. Acompañamos a nuestros clientes mediante una consultoría integral, combinando visión estratégica, innovación y creatividad con un enfoque profundamente humano.</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:100%;max-width:1280px;padding:0 40px;">
+      <div data-foot style="border-radius:8px;background:#7267C1;padding:40px;display:flex;flex-direction:column;gap:30px;position:relative;min-height:200px;">
+        <div data-cwrap style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <span style="width:120px;font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(254,250,252,0.7);">[Navegación]</span>
+          <span onClick="{{ goHome }}" style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Home</span>
+          <span onClick="{{ goProy }}" style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Proyectos</span>
+          <span onClick="{{ goServ }}" style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Servicios</span>
+          <span onClick="{{ goQui }}" style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Quiénes somos</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;cursor:pointer;padding:4px 8px;" style-hover="color:#090502;">Artículos</span>
+        </div>
+        <div data-cwrap style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <span style="width:120px;font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(254,250,252,0.7);">[Social]</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">Instagram</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">Facebook</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">Tiktok</span>
+        </div>
+        <div data-cwrap style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <span style="width:120px;font-size:12px;font-weight:300;letter-spacing:0.24em;color:rgba(254,250,252,0.7);">[Contacto]</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">+525571917878</span>
+          <span style="font-size:16px;font-weight:300;letter-spacing:0.22em;color:#FEFAFC;padding:4px 8px;">manu@totot.mx</span>
+        </div>
+        <div onClick="{{ goHome }}" style="position:absolute;right:40px;bottom:30px;cursor:pointer;" style-hover="opacity:0.7;"><dc-import name="TototLogo" hint-size="80px,24px"></dc-import></div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:832}}">
+class Component extends DCLogic {
+  state = { screen: 'home', servSel: null };
+
+  nav(s) {
+    this.setState({ screen: s, servSel: null });
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
+
+  car(dir) {
+    const el = document.getElementById('totot-car');
+    if (!el) return;
+    const slide = el.firstElementChild;
+    const step = slide ? slide.getBoundingClientRect().width + 20 : el.clientWidth;
+    el.scrollBy({ left: dir * step, behavior: 'smooth' });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const sel = (k) => (s.servSel === k ? '#7267C1' : 'rgba(254,250,252,0.04)');
+    return {
+      isHome: s.screen === 'home',
+      isProy: s.screen === 'proyectos',
+      isServ: s.screen === 'servicios',
+      isQui: s.screen === 'quienes',
+      goHome: () => this.nav('home'),
+      goProy: () => this.nav('proyectos'),
+      goServ: () => this.nav('servicios'),
+      goQui: () => this.nav('quienes'),
+      carPrev: () => this.car(-1),
+      carNext: () => this.car(1),
+      proyBg: sel('proyecto'),
+      ideaBg: sel('idea'),
+      consBg: sel('consulta'),
+      selProy: () => this.setState({ servSel: 'proyecto' }),
+      selIdea: () => this.setState({ servSel: 'idea' }),
+      selCons: () => this.setState({ servSel: 'consulta' }),
+    };
+  }
+}
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Splash Screen Animation (40fps, yoyo, exactly 3 cycles)
+  const canvas = document.getElementById('splash-canvas');
+  const ctx = canvas ? canvas.getContext('2d') : null;
+  
+  let animationFinished = false;
+  let cycleCount = 0;
+
+  if (canvas && ctx) {
+    const totalFrames = 72;
+    const frames = [];
+    let loadedCount = 0;
+    let animationStarted = false;
+
+    // Load frames
+    for (let i = 0; i < totalFrames; i++) {
+      const img = new Image();
+      const num = String(i).padStart(2, '0');
+      img.src = `motioinicial/Motion graphic${num}.jpg`;
+      img.onload = () => {
+        loadedCount++;
+        // Set canvas resolution based on first frame
+        if (i === 0) {
+          canvas.width = img.naturalWidth || 300;
+          canvas.height = img.naturalHeight || 300;
+        }
+        if (loadedCount === totalFrames && !animationStarted) {
+          animationStarted = true;
+          startAnimation();
+        }
+      };
+      frames.push(img);
+    }
+
+    let currentFrame = 0;
+    let direction = 1;
+    let lastTime = 0;
+    const frameInterval = 1000 / 40; // 40fps (slightly slower than 60fps for better readability)
+
+    function startAnimation() {
+      requestAnimationFrame(animate);
+    }
+
+    function animate(timestamp) {
+      if (animationFinished && pageLoaded) return; // Stop animation loop if complete and page is loaded
+
+      if (!lastTime) lastTime = timestamp;
+      const elapsed = timestamp - lastTime;
+
+      if (elapsed >= frameInterval) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const img = frames[currentFrame];
+        if (img && img.complete) {
+          ctx.drawImage(img, 0, 0);
+        }
+
+        // Forward/backward loop (yoyo)
+        currentFrame += direction;
+        if (currentFrame >= totalFrames) {
+          currentFrame = totalFrames - 2;
+          direction = -1;
+        } else if (currentFrame < 0) {
+          currentFrame = 1;
+          direction = 1;
+
+          // Increment cycle count when returning to frame 0
+          cycleCount++;
+          if (cycleCount >= 1) {
+            animationFinished = true;
+          }
+        }
+
+        lastTime = timestamp - (elapsed % frameInterval);
+      }
+      requestAnimationFrame(animate);
+    }
+  }
+
+  // Fade out splash screen and reveal index page when loaded
+  let pageLoaded = false;
+  window.addEventListener('load', () => {
+    pageLoaded = true;
+  });
+
+  const checkAndFade = () => {
+    if (pageLoaded && animationFinished) {
+      const splash = document.getElementById('splash-screen');
+      const content = document.getElementById('main-content');
+      if (splash) {
+        splash.classList.add('fade-out');
+        if (content) {
+          content.style.opacity = '1';
+        }
+        setTimeout(() => splash.remove(), 600);
+      }
+    } else {
+      setTimeout(checkAndFade, 100);
+    }
+  };
+  checkAndFade();
+
+  // Custom Cursor logic
+  const cursor = document.createElement('div');
+  cursor.className = 'custom-cursor';
+  document.body.appendChild(cursor);
+
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  document.addEventListener('mouseover', (e) => {
+    const target = e.target;
+    if (target.closest('a, button, [onClick], [style*="cursor:pointer"], [style-hover]')) {
+      cursor.classList.add('hovering');
+    } else {
+      cursor.classList.remove('hovering');
+    }
+  });
+});
+</script>
+</body>
+</html>
